@@ -78,10 +78,41 @@ endif()
 # Get external libraries we are dependent on
 
 find_package(GSL ${GSL_VERSION_REQUIRED} EXACT
-             CONFIG
+             MODULE
              REQUIRED COMPONENTS ALL)
 
 find_library(MATH_LIBRARY m)
+
+###############################################################################
+
+###############################################################################
+# Make variables for all files and paths
+
+# Set build paths and files
+set(build_inc_path "${CMAKE_CURRENT_SOURCE_DIR}/inc")
+set(build_include_path "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(build_src_path "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(build_tests_path "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+
+set(build_header_files
+      ${build_inc_path}/fixed-matricies.h
+      ${build_include_path}/starting.h
+      ${build_include_path}/com-sys-lib.h)
+
+set(source_files
+      ${build_src_path}/starting.cpp)
+
+# Set install paths and files
+set(install_library_path "lib/${PROJECT_NAME}")
+set(install_include_path "include/${PROJECT_NAME}")
+
+set(install_interface_header_files
+      ${install_include_path}/starting.h
+      ${install_include_path}/com-sys-lib.h)
+
+set(install_header_files
+      ${build_include_path}/starting.h
+      ${build_include_path}/com-sys-lib.h)
 
 ###############################################################################
 
@@ -95,24 +126,32 @@ find_library(MATH_LIBRARY m)
 #                         GSL::gslcblas
 #                         PROPERTIES IMPORTED_GLOBAL TRUE)
 #endif()
+add_library(${PROJECT_NAME})
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 # Directories relative to cmake_current_source_dir prior to 3.13 but now can
 # just do relative to project
-target_sources((${PROJECT_NAME}
+target_sources(${PROJECT_NAME}
                PUBLIC
-                  ${CMAKE_CURRENT_SOURCE_DIR}inc/private_header.h
-               INTERFACE
-                  ${CMAKE_CURRENT_SOURCE_DIR}include/${PROJECT_NAME}.h
+                  "$<BUILD_INTERFACE:${build_header_files}>"
+                  "$<INSTALL_INTERFACE:${install_interface_header_files}>"
                PRIVATE
-                  src/starting.cpp
-                  src/starting.h
-                  inc/secret_header.h)
+                  ${build_header_files}
+                  ${source_files})
 
 # Add directories with source code (non header)
-add_subdirectory(src)
 if(BUILD_TESTING)
    add_subdirectory(tests)
 endif()
+
+###############################################################################
+
+###############################################################################
+# Generated Files section
+
+# Will make com-sys-lib_export.h and define COM_SYS_LIB_EXPORT symbol
+# MUST BE AFTER TARGET IS DEFINED ABOVE ( with add_library )
+include(GenerateExportHeader)
+generate_export_header(${PROJECT_NAME})
 
 ###############################################################################
 
@@ -151,8 +190,6 @@ set_property(TARGET ${PROJECT_NAME}
 ###############################################################################
 # Setup Target Options
 
-target_compile_features(${PROEJCT_NAME} cxx_std_14)
-
 # Note that ON will set PIC ON as well by default as it is required anyway but
 # ill set it just in case
 # state that com-sys-lib need PIC when the default is shared libraries
@@ -161,34 +198,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_include_directories(${PROJECT_NAME}
                            PUBLIC
-                               $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
-                               $<INSTALL_INTERFACE:include>
-                           INTERFACE
-                               $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
-                               $<INSTALL_INTERFACE:include>
+                               "$<BUILD_INTERFACE:${build_inc_path}>"
+                               "$<BUILD_INTERFACE:${build_include_path}>"
+                               "$<INSTALL_INTERFACE:${install_include_path}>"
                            PRIVATE
-                               ${CMAKE_CURRENT_SOURCE_DIR})
-
-
-# add compiler warning flags just when building this project via
-# the BUILD_INTERFACE genex
-#TODO SUPPOSEDLY THIS MUST BE AFTER install(TARGET ..... EXPORT FILE) TO GET
-#FILE TO ASSOCIATE WITH IT PROPERLY
-set(gcc_like_cpp "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
-set(msvc_cpp "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
-target_compile_options(${PROEJCT_NAME} INTERFACE
-  "$<${gcc_like_cpp}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-pedantic>>"
-  "$<${msvc_cpp}:$<BUILD_INTERFACE:/W3;/WX>>"
-)
-
-###############################################################################
-
-###############################################################################
-# Generated Files section
-
-# Will make com-sys-lib_export.h and define COM-SYS-LIB_EXPORT
-include(GenerateExportHeader)
-generate_export_header(${PROJECT_NAME})
+                               ${build_inc_path}
+                               ${build_include_path})
 
 ###############################################################################
 
@@ -254,7 +269,7 @@ set(CPACK_SOURCE_IGNORE_FILES
 # LIBRARY is for shared libs in linux
 # ARCHIVE is for static libraries
 include(GNUInstallDirs)
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
            COMPONENT ${PROJECT_NAME}_Runtime
    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -262,23 +277,22 @@ install(TARGETS ${PROJECT_NAME}
            NAMELINK_COMPONENT ${PROJECT_NAME}_Development
    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
            COMPONENT ${PROJECT_NAME}_Development
-   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
            COMPONENT ${PROJECT_NAME}_Runtime
-           NAMELINK_COMPONENT ${PROJECT_NAME}_Development
-   EXPORT ${PROJECT_NAME}Targets
+           NAMELINK_COMPONENT ${PROJECT_NAME}_Development)
 
 # install the configuration targets
 install(EXPORT ${PROJECT_NAME}Targets
   FILE ${PROJECT_NAME}Targets.cmake
   NAMESPACE ${PROJECT_NAME}::
-  DESTINATION lib/${PROJECT_NAME})
+  DESTINATION ${install_library_path})
 
 ####### Generate and install config and version file
 include(CMakePackageConfigHelpers)
 # generate the config file that is includes the exports
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-  INSTALL_DESTINATION lib/${PROJECT_NAME}
+  INSTALL_DESTINATION ${install_library_path}
   NO_SET_AND_CHECK_MACRO
   NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
@@ -288,11 +302,14 @@ write_basic_package_version_file(
   VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}.${${PROJECT_NAME}_VERSION_PATCH}"
   COMPATIBILITY SameMajorVersion)
 
-# install the configuration and Version files
+# Install the configuration and Version files
 install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-  DESTINATION lib/${PROJECT_NAME})
+  DESTINATION ${install_library_path})
+
+# Install the header files
+install(FILES ${install_header_files} DESTINATION ${install_include_path})
 
 ####### Make and install file so outside projects can import targets from this
 ####### current project WHEN IT IS IN THE HOST PROJECTS BUILD TREE ONLY
