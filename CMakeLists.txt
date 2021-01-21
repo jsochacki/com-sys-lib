@@ -353,5 +353,6 @@ export(EXPORT ${PROJECT_NAME}Targets
 # Lastly export the package
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 export(PACKAGE ${PACKAGE_NAME})
+#set(CMAKE_PREFIX_PATH CACHE FILEPATH ${install_library_path})
 
 ###############################################################################
