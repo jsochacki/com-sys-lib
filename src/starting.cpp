@@ -1,4 +1,4 @@
-#include "../include/com-sys-lib.h"
+#include "../inc/com_sys_lib.h"
 #include <iostream>
 #include <gsl/gsl_linalg.h>
 
@@ -7,7 +7,7 @@ namespace com_sys_lib
    namespace starting_functions
    {
 
-void MKSHRD lu_decomposition(double A_data[], double b_data[])
+void CSLDECLSPEC lu_decomposition(double A_data[], double b_data[])
 {
 
      // Access the above C arrays through GSL views
