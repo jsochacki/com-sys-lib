@@ -4,8 +4,18 @@
 
 namespace com_sys_lib
 {
-   namespace starting_functions
+
+void CSLDECLSPEC pleasegodwork1(void)
+{
+     std::cout << "PLEASE PRINT THIS";
+}
+   namespace matrix_decompositions
    {
+
+void CSLDECLSPEC pleasegodwork(void)
+{
+     std::cout << "PLEASE PRINT THIS";
+}
 
 void CSLDECLSPEC lu_decomposition(double A_data[], double b_data[])
 {
