@@ -1,3 +1,16 @@
 @PACKAGE_INIT@
 
 include ( "${CMAKE_CURRENT_LIST_DIR}/com_sys_libTargets.cmake" )
+
+# This should be taken care of in check_required_components but in case you have
+# issues in the future ill leave it in here
+#foreach(_comp ${com_sys_lib_FIND_COMPONENTS})
+#  if (NOT _comp IN_LIST _supported_components)
+#    set(com_sys_lib_FOUND False)
+#    set(com_sys_lib_NOT_FOUND_MESSAGE "Unsupported component: ${_comp}")
+#  endif()
+#  include("${CMAKE_CURRENT_LIST_DIR}/com_sys_lib${_comp}Targets.cmake")
+#endforeach()
+
+# This is places in the com_sys_libConfig.cmake automatically but CMakeLists.txt
+#check_required_components(com_sys_lib)

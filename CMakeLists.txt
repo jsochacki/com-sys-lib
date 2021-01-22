@@ -233,6 +233,16 @@ target_include_directories(${PROJECT_NAME}
                            PRIVATE
                                ${build_inc_path})
 
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_14)
+
+# add compiler warning flags just when building this project via
+# the BUILD_INTERFACE genex
+set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU>")
+set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
+target_compile_options(${PROJECT_NAME} PRIVATE
+  "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-pedantic>>"
+  "$<${msvc_cxx}:$<BUILD_INTERFACE:/W3>>")
+
 ###############################################################################
 
 ###############################################################################
@@ -320,9 +330,7 @@ include(CMakePackageConfigHelpers)
 # generate the config file that is includes the exports
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-  INSTALL_DESTINATION ${install_library_path}
-  NO_SET_AND_CHECK_MACRO
-  NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+  INSTALL_DESTINATION ${install_library_path})
 
 # generate the version file for the config file
 write_basic_package_version_file(
