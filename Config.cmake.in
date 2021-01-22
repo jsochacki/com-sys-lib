@@ -2,6 +2,11 @@
 
 include ( "${CMAKE_CURRENT_LIST_DIR}/com_sys_libTargets.cmake" )
 
+include(CMakeFindDependencyMacro)
+find_dependency(GSL 2.6 REQUIRED)
+
+#set(_supported_components sublib1 sublib2)
+
 # This should be taken care of in check_required_components but in case you have
 # issues in the future ill leave it in here
 #foreach(_comp ${com_sys_lib_FIND_COMPONENTS})
