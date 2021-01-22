@@ -97,7 +97,7 @@ set(build_tests_path "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 # Set install paths
 set(install_library_path "lib/${PROJECT_NAME}")
-set(install_include_path "include/${PROJECT_NAME}")
+set(install_include_path "include/${PROJECT_NAME}/inc")
 
 # Set build and Install files
 set(build_header_files
