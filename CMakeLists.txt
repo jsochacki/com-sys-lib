@@ -101,16 +101,21 @@ set(install_include_path "include/${PROJECT_NAME}/inc")
 
 # Set build and Install files
 set(build_header_files
+      ${build_inc_path}/arg_parse.h
+      ${build_inc_path}/com_sys_lib_build_settings.h
+      ${build_inc_path}/com_sys_lib.h
       ${build_inc_path}/fixed_matricies.h
-      ${build_inc_path}/starting.h
-      ${build_inc_path}/com_sys_lib.h)
+      ${build_inc_path}/starting.h)
 
 set(install_interface_header_files
+      ${install_include_path}/arg_parse.h
+      ${install_include_path}/com_sys_lib_build_settings.h
+      ${install_include_path}/com_sys_lib.h
       ${install_include_path}/fixed_matricies.h
-      ${install_include_path}/starting.h
-      ${install_include_path}/com_sys_lib.h)
+      ${install_include_path}/starting.h)
 
 set(source_files
+      ${build_src_path}/arg_parse.cpp
       ${build_src_path}/starting.cpp)
 
 ###############################################################################
@@ -232,6 +237,17 @@ target_include_directories(${PROJECT_NAME}
                                "$<INSTALL_INTERFACE:${install_include_path}>"
                            PRIVATE
                                ${build_inc_path})
+
+# Lets you use the same system header calls you would if the library was
+# installed vs local in lib directory 
+# But i currently cant get it to play nice when using from another project
+# locally so punt for now
+if(NOT LOCAL_LIBRARY_BUILD)
+get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+target_include_directories(${PROJECT_NAME}
+                           PRIVATE
+                           "${PARENT_DIR}")
+endif()
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_14)
 
