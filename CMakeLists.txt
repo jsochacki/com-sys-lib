@@ -111,11 +111,14 @@ set(install_interface_header_files
       ${install_include_path}/arg_parse.h
       ${install_include_path}/com_sys_lib_build_settings.h
       ${install_include_path}/com_sys_lib.h
+      ${install_include_path}/constants.h
       ${install_include_path}/fixed_matricies.h
+      ${install_include_path}/link_budget.h
       ${install_include_path}/starting.h)
 
 set(source_files
       ${build_src_path}/arg_parse.cpp
+      ${build_src_path}/link_budget.cpp
       ${build_src_path}/starting.cpp)
 
 ###############################################################################
