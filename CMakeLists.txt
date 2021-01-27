@@ -118,6 +118,7 @@ set(install_interface_header_files
 
 set(source_files
       ${build_src_path}/arg_parse.cpp
+      ${build_src_path}/constants.cpp
       ${build_src_path}/link_budget.cpp
       ${build_src_path}/starting.cpp)
 
