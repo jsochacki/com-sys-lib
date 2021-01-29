@@ -9,6 +9,12 @@ namespace com_sys_lib
 {
    namespace constants
    {
+      namespace math
+      {
+         template<typename Type>
+         CSLDECLSPEC constexpr Type pi{ static_cast<Type>(
+            3.141592653589793238462643383279502884197169399375105820974944592307816406286) };
+      }
       namespace physics
       {
          template<typename Type>

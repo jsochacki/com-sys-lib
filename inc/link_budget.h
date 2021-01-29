@@ -36,7 +36,9 @@ namespace com_sys_lib
       Type CSLDECLSPEC N0_dbm_from_C(Type temperature_in_C,
                                      Type bandwidth_in_Hz);
       template<typename Type>
-      Type CSLDECLSPEC lambda_from_f(Type bandwidth_in_Hz);
+      Type CSLDECLSPEC lambda_from_f(Type frequency_in_Hz);
+      template<typename Type>
+      Type CSLDECLSPEC f_from_lambda(Type wavelength_in_m);
    }   // namespace link_budget
 }   // namespace com_sys_lib
 

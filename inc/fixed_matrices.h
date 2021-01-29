@@ -1,9 +1,9 @@
-#ifndef FIXED_MATRICIES_H_
-#define FIXED_MATRICIES_H_
+#ifndef FIXED_MATRICES_H_
+#define FIXED_MATRICES_H_
 
 namespace com_sys_lib
 {
-   namespace fixed_matricies
+   namespace fixed_matrices
    {
 
 double A_data[] = {0.57092943, 0.00313503, 0.88069151, 0.39626474,
@@ -16,4 +16,4 @@ double b_data[] = {1.5426693 , 0.74961678, 2.21431998, 2.14989419};
    }
 }
 
-#endif /* FIXED_MATRICIES_H_ */
+#endif /* FIXED_MATRICES_H_ */

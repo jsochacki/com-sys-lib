@@ -108,10 +108,18 @@ namespace com_sys_lib
 
       template<typename Type>
       Type CSLDECLSPEC
-      lambda_from_f(Type bandwidth_in_Hz)
+      lambda_from_f(Type frequency_in_Hz)
       {
          return com_sys_lib::constants::physics::speed_of_light<
-                   Type> / bandwidth_in_Hz;
+                   Type> / frequency_in_Hz;
+      }
+
+      template<typename Type>
+      Type CSLDECLSPEC
+      f_from_lambda(Type wavelength_in_m)
+      {
+         return com_sys_lib::constants::physics::speed_of_light<
+                   Type> / wavelength_in_m;
       }
 
       // Explicitly declare all templates for types so they make it into the
@@ -155,8 +163,10 @@ namespace com_sys_lib
                                                       float bandwidth_in_Hz);
       template double CSLDECLSPEC
                                   N0_dbm_from_C<double>(double temperature_in_C, double bandwidth_in_Hz);
-      template float CSLDECLSPEC  lambda_from_f<float>(float bandwidth_in_Hz);
-      template double CSLDECLSPEC lambda_from_f<double>(double bandwidth_in_Hz);
+      template float CSLDECLSPEC  lambda_from_f<float>(float frequency_in_Hz);
+      template double CSLDECLSPEC lambda_from_f<double>(double frequency_in_Hz);
+      template float CSLDECLSPEC  f_from_lambda<float>(float wavelength_in_m);
+      template double CSLDECLSPEC f_from_lambda<double>(double wavelength_in_m);
 #endif
 
    }   // namespace link_budget

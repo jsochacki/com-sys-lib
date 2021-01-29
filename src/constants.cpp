@@ -4,6 +4,13 @@ namespace com_sys_lib
 {
    namespace constants
    {
+      namespace math
+      {
+#ifdef com_sys_lib_EXPORTS
+         template float  pi<float>;
+         template double pi<double>;
+#endif
+      }
       namespace physics
       {
          // Explicitly declare all templates for types so they make it into the
