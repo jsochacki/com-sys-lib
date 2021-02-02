@@ -2,6 +2,7 @@
 #define TRANSCEIVER_H_
 
 #include <cmath>
+#include <cstdio>
 
 #include <com_sys_lib/inc/com_sys_lib_build_settings.h>
 #include <com_sys_lib/inc/link_budget.h>
@@ -9,7 +10,7 @@
 
 namespace mathcons = com_sys_lib::constants::math;
 namespace physcons = com_sys_lib::constants::physics;
-namespace lb       = com_sys_lib::link_budget;
+namespace lbconv   = com_sys_lib::link_budget::conversions;
 
 namespace com_sys_lib
 {
@@ -20,17 +21,24 @@ namespace com_sys_lib
          template<typename Type> class CSLDECLSPEC dish_transceiver
          {
             public:
-            dish_transceiver(
-               Type center_frequency_in_Hz_in = 0, Type bandwidth_in_Hz_in = 0,
-               Type dish_diameter_in_m_in = 0, Type antenna_tx_efficiency_in = 0,
-               Type antenna_rx_efficiency_in   = 0,
-               Type pa_saturated_power_in_W_in = 0, Type pa_feed_loss_in_dB_in = 0,
-               Type pa_linear_power_in_W_in = 0, Type tx_carrier_rolloff_in = 0,
-               Type rx_carrier_rolloff_in = 0);
+            dish_transceiver(Type earth_station_height_above_sea_level_in_m_in
+                             = 0,
+                             Type satellite_height_m_in      = 0,
+                             Type center_frequency_in_Hz_in  = 0,
+                             Type bandwidth_in_Hz_in         = 0,
+                             Type dish_diameter_in_m_in      = 0,
+                             Type antenna_tx_efficiency_in   = 0,
+                             Type antenna_rx_efficiency_in   = 0,
+                             Type pa_saturated_power_in_W_in = 0,
+                             Type pa_feed_loss_in_dB_in      = 0,
+                             Type pa_linear_power_in_W_in    = 0,
+                             Type tx_carrier_rolloff_in      = 0,
+                             Type rx_carrier_rolloff_in      = 0);
 
-            void show_transmit_info(void);
+            void print_transmit_info(void);
 
             private:
+            Type height_above_sea_level_in_m;
             Type center_frequency_in_Hz;
             Type bandwidth_in_Hz;
             Type dish_diameter_in_m;

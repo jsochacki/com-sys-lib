@@ -1,9 +1,6 @@
 #include <com_sys_lib/inc/constants.h>
 #include <com_sys_lib/inc/transceiver.h>
 
-//TEMPORARY FOR TESTING DELETE WHEN DONE
-#include <cstdio>
-
 namespace physcons = com_sys_lib::constants::physics;
 
 namespace com_sys_lib
@@ -15,11 +12,13 @@ namespace com_sys_lib
          template<typename Type>
          CSLDECLSPEC
          dish_transceiver<Type>::dish_transceiver(
-            Type center_frequency_in_Hz_in, Type bandwidth_in_Hz_in,
-            Type dish_diameter_in_m_in, Type antenna_tx_efficiency_in,
-            Type antenna_rx_efficiency_in, Type pa_saturated_power_in_W_in,
-            Type pa_feed_loss_in_dB_in, Type pa_linear_power_in_W_in,
-            Type tx_carrier_rolloff_in, Type rx_carrier_rolloff_in)
+            Type earth_station_height_above_sea_level_in_m_in,
+            Type satellite_height_m_in, Type center_frequency_in_Hz_in,
+            Type bandwidth_in_Hz_in, Type dish_diameter_in_m_in,
+            Type antenna_tx_efficiency_in, Type antenna_rx_efficiency_in,
+            Type pa_saturated_power_in_W_in, Type pa_feed_loss_in_dB_in,
+            Type pa_linear_power_in_W_in, Type tx_carrier_rolloff_in,
+            Type rx_carrier_rolloff_in)
             : center_frequency_in_Hz(center_frequency_in_Hz_in)
             , bandwidth_in_Hz(bandwidth_in_Hz_in)
             , dish_diameter_in_m(dish_diameter_in_m_in)
@@ -33,13 +32,12 @@ namespace com_sys_lib
          {
             // Set initial values for variables not passed in but used in
             // initialization
-            //antenna_tx_half_beam_width_loss_contour = 0;
-            //THIS IS JUST FOR TESTING, GO BACK TO WHAT IS ABOVE WHEN DONE
-            antenna_tx_half_beam_width_loss_contour = 0.015;
+            antenna_tx_half_beam_width_loss_contour = 0;
 
-            lambda_in_m = lb::lambda_from_f<Type>(center_frequency_in_Hz);
+            lambda_in_m = lbconv::lambda_from_f<Type>(center_frequency_in_Hz);
 
-            pi_d_by_lambda = mathcons::pi<Type> * (dish_diameter_in_m / lambda_in_m);
+            pi_d_by_lambda
+               = mathcons::pi<Type> * (dish_diameter_in_m / lambda_in_m);
 
             // The following are derived tx quantities
 
@@ -58,8 +56,9 @@ namespace com_sys_lib
                             2
                                * (static_cast<Type>(gsl_sf_bessel_J1(
                                      pi_d_by_lambda
-                                     * std::sin(antenna_tx_half_beam_width_loss_contour
-                                                * (mathcons::pi<Type> / 180))))
+                                     * std::sin(
+                                        antenna_tx_half_beam_width_loss_contour
+                                        * (mathcons::pi<Type> / 180))))
                                   / (pi_d_by_lambda
                                      * std::sin(
                                         antenna_tx_half_beam_width_loss_contour
@@ -79,22 +78,21 @@ namespace com_sys_lib
                            */
          }
 
-         // THIS IS JUST TEST FOR NOW , IN THE END IT SHOULD RETURN A STRUCT
-         // WITH ALL THE DATA AND THE STRUCT CAN HAVE A PRINT SELF FUNCTION
          template<typename Type>
          void CSLDECLSPEC
-         dish_transceiver<Type>::show_transmit_info(void)
+         dish_transceiver<Type>::print_transmit_info(void)
          {
-
             printf("\n lambda is %f \n", this->lambda_in_m);
-            printf("\n boresight tx gain is %f \n", this->boresight_tx_gain_in_dBi);
-            printf("\n antenna loss at countour is %f \n", this->antenna_tx_loss_at_contour_in_dB);
+            printf("\n boresight tx gain is %f \n",
+                   this->boresight_tx_gain_in_dBi);
+            printf("\n antenna loss at countour is %f \n",
+                   this->antenna_tx_loss_at_contour_in_dB);
          }
          // Explicitly declare all templates for types so they make it into the
          // shared library else they will not
 #ifdef com_sys_lib_EXPORTS
-         template struct dish_transceiver<float>;
-         template struct dish_transceiver<double>;
+         template class dish_transceiver<float>;
+         template class dish_transceiver<double>;
 #endif
       }   // namespace system
 
