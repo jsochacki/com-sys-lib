@@ -98,10 +98,11 @@ set(build_tests_path "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 # Set install paths
 set(install_library_path "lib/${PROJECT_NAME}")
 set(install_include_path "include/${PROJECT_NAME}/inc")
+set(install_include_file_path "include/${PROJECT_NAME}/include_file")
 
 # Set build and Install files
 set(build_header_files
-      ${build_inc_path}/arg_parse.h
+      ${build_inc_path}/parsers.h
       ${build_inc_path}/com_sys_lib_build_settings.h
       ${build_inc_path}/com_sys_lib.h
       ${build_inc_path}/constants.h
@@ -111,17 +112,18 @@ set(build_header_files
       ${build_inc_path}/transceiver.h)
 
 set(install_interface_header_files
-      ${install_include_path}/arg_parse.h
+      ${install_include_path}/parsers.h
       ${install_include_path}/com_sys_lib_build_settings.h
       ${install_include_path}/com_sys_lib.h
       ${install_include_path}/constants.h
+      ${install_include_file_path}/DVBS2xplus-codebook.csv
       ${install_include_path}/fixed_matrices.h
       ${install_include_path}/link_budget.h
       ${install_include_path}/starting.h
       ${install_include_path}/transceiver.h)
 
 set(source_files
-      ${build_src_path}/arg_parse.cpp
+      ${build_src_path}/parsers.cpp
       ${build_src_path}/constants.cpp
       ${build_src_path}/link_budget.cpp
       ${build_src_path}/starting.cpp

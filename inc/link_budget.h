@@ -11,16 +11,20 @@ namespace com_sys_lib
    {
       namespace conversions
       {
-         template<typename Type> Type CSLDECLSPEC kbT_0C(void);
+         template<typename Type>
+         Type CSLDECLSPEC kbT_0C(void);
          template<typename Type>
          Type CSLDECLSPEC kbT_from_K(Type temperature_in_K);
          template<typename Type>
          Type CSLDECLSPEC kbT_from_C(Type temperature_in_C);
          template<typename Type>
          Type CSLDECLSPEC from_C_to_K(Type temperature_in_C);
-         template<typename Type> Type CSLDECLSPEC from_w_to_dbw(Type watts);
-         template<typename Type> Type CSLDECLSPEC from_w_to_dbm(Type watts);
-         template<typename Type> Type CSLDECLSPEC kb_dbw(void);
+         template<typename Type>
+         Type CSLDECLSPEC from_w_to_dbw(Type watts);
+         template<typename Type>
+         Type CSLDECLSPEC from_w_to_dbm(Type watts);
+         template<typename Type>
+         Type CSLDECLSPEC kb_dbw(void);
          template<typename Type>
          Type CSLDECLSPEC N0_from_K(Type temperature_in_K,
                                     Type bandwidth_in_Hz);
@@ -59,6 +63,18 @@ namespace com_sys_lib
                                       Type satellite_height_in_m,
                                       Type degrees_from_zenith);
 
+         template<typename IType, typename Type>
+         Type CSLDECLSPEC
+         fresnel_radius(IType zone_number,
+                        Type  frequency_in_Hz,
+                        Type  distance_from_Transmitter_in_m,
+                        Type  total_line_of_sight_distance_in_m);
+
+         template<typename IType, typename Type>
+         Type CSLDECLSPEC
+         fresnel_radius_worst_case(IType zone_number,
+                        Type  frequency_in_Hz,
+                        Type  total_line_of_sight_distance_in_m);
 
       }   // namespace geometric_calculations
    }      // namespace link_budget

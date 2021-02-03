@@ -34,8 +34,10 @@ namespace com_sys_lib
       namespace math
       {
          template<typename Type>
-         CSLDECLSPEC constexpr Type pi{ static_cast<Type>(
-            3.141592653589793238462643383279502884197169399375105820974944592307816406286) };
+         CSLDECLSPEC constexpr Type pi{
+            static_cast<Type>(
+               3.141592653589793238462643383279502884197169399375105820974944592307816406286)
+         };
       }
       namespace physics
       {
@@ -49,38 +51,44 @@ namespace com_sys_lib
          CSLDECLSPEC constexpr Type zero_C_in_kelvin{ static_cast<Type>(
             273.15) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type room_temp_in_C{ static_cast<Type>(
-            16.85) };
+         CSLDECLSPEC constexpr Type room_temp_in_C{ static_cast<Type>(16.85) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type room_temp_in_K{ static_cast<Type>(
-            290.0) };
+         CSLDECLSPEC constexpr Type room_temp_in_K{ static_cast<Type>(290.0) };
       }   // namespace physics
       namespace geographical
       {
          /**
-         * # Why earths mean radius isn't 6367 km
-         *
-         * The Earth is not a perfect sphere but approximately an oblate
-         * spheroid (an ellipse rotated around its minor axis) with a larger
-         * radius at the equator than at the poles. When only one radius is
-         * stated, the International Astronomical Union (IAU) prefers that it
-         * be the equatorial radius. The International Union of Geodesy and
-         * Geophysics (IUGG) recommends three values: the arithmetic mean (R1)
-         * of the radii measured at two equator points and a pole; the authalic
-         * radius, which is the radius of a sphere with the same surface area
-         * (R2); and the volumetric radius, which is the radius of a sphere
-         * having the same volume as the ellipsoid (R3). All three values
-         * are about 6,371 kilometres (3,959 mi)
-         *
-         * */
+          * # Why earths mean radius isn't 6367 km
+          *
+          * The Earth is not a perfect sphere but approximately an oblate
+          * spheroid (an ellipse rotated around its minor axis) with a larger
+          * radius at the equator than at the poles. When only one radius is
+          * stated, the International Astronomical Union (IAU) prefers that it
+          * be the equatorial radius. The International Union of Geodesy and
+          * Geophysics (IUGG) recommends three values: the arithmetic mean (R1)
+          * of the radii measured at two equator points and a pole; the
+          * authalic radius, which is the radius of a sphere with the same
+          * surface area (R2); and the volumetric radius, which is the radius
+          * of a sphere having the same volume as the ellipsoid (R3). All three
+          * values are about 6,371 kilometres (3,959 mi)
+          *
+          * */
          template<typename Type>
-         CSLDECLSPEC constexpr Type mean_earth_radius_in_m{ static_cast<Type>(6371000) };
+         CSLDECLSPEC constexpr Type mean_earth_radius_in_m{ static_cast<Type>(
+            6371000) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type polar_earth_radius_in_m{ static_cast<Type>(6356000) };
+         CSLDECLSPEC constexpr Type polar_earth_radius_in_m{ static_cast<Type>(
+            6356000) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type equatorial_earth_radius_in_m{ static_cast<Type>(6378000) };
+         CSLDECLSPEC constexpr Type equatorial_earth_radius_in_m{
+            static_cast<Type>(6378000)
+         };
+      }   // namespace geographical
+      namespace build
+      {
+         CSLDECLSPEC constexpr uint32_t MAX_FILE_READ_BUFFER_SIZE{ UINT32_MAX };
       }
-   }      // namespace constants
+   }   // namespace constants
 }   // namespace com_sys_lib
 
 #endif /* CONSTANTS_H_ */

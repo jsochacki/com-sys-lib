@@ -18,7 +18,8 @@ namespace com_sys_lib
    {
       namespace system
       {
-         template<typename Type> class CSLDECLSPEC dish_transceiver
+         template<typename Type>
+         class CSLDECLSPEC dish_transceiver
          {
             public:
             dish_transceiver(Type earth_station_height_above_sea_level_in_m_in

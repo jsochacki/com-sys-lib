@@ -13,11 +13,16 @@ namespace com_sys_lib
          CSLDECLSPEC
          dish_transceiver<Type>::dish_transceiver(
             Type earth_station_height_above_sea_level_in_m_in,
-            Type satellite_height_m_in, Type center_frequency_in_Hz_in,
-            Type bandwidth_in_Hz_in, Type dish_diameter_in_m_in,
-            Type antenna_tx_efficiency_in, Type antenna_rx_efficiency_in,
-            Type pa_saturated_power_in_W_in, Type pa_feed_loss_in_dB_in,
-            Type pa_linear_power_in_W_in, Type tx_carrier_rolloff_in,
+            Type satellite_height_m_in,
+            Type center_frequency_in_Hz_in,
+            Type bandwidth_in_Hz_in,
+            Type dish_diameter_in_m_in,
+            Type antenna_tx_efficiency_in,
+            Type antenna_rx_efficiency_in,
+            Type pa_saturated_power_in_W_in,
+            Type pa_feed_loss_in_dB_in,
+            Type pa_linear_power_in_W_in,
+            Type tx_carrier_rolloff_in,
             Type rx_carrier_rolloff_in)
             : center_frequency_in_Hz(center_frequency_in_Hz_in)
             , bandwidth_in_Hz(bandwidth_in_Hz_in)
