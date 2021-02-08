@@ -86,7 +86,7 @@ namespace com_sys_lib
       }   // namespace geographical
       namespace build
       {
-         CSLDECLSPEC constexpr uint32_t MAX_FILE_READ_BUFFER_SIZE{ UINT32_MAX };
+         CSLDECLSPEC constexpr uint32_t MAX_FILE_READ_BUFFER_SIZE{ UINT16_MAX };
       }
    }   // namespace constants
 }   // namespace com_sys_lib

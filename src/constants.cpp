@@ -63,6 +63,12 @@ namespace com_sys_lib
          template float  equatorial_earth_radius_in_m<float>;
          template double equatorial_earth_radius_in_m<double>;
 #endif
-      }   // namespace geographical
-   }      // namespace constants
+         namespace build
+         {
+#ifdef com_sys_lib_EXPORTS
+            uint32_t MAX_FILE_READ_BUFFER_SIZE;
+#endif
+         }   // namespace build
+      }      // namespace geographical
+   }         // namespace constants
 }   // namespace com_sys_lib
