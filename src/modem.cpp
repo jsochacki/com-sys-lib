@@ -1,4 +1,6 @@
+#include <com_sys_lib/inc/exceptions.h>
 #include <com_sys_lib/inc/modem.h>
+#include <com_sys_lib/inc/parsers.h>
 
 namespace com_sys_lib
 {
@@ -15,17 +17,17 @@ namespace com_sys_lib
             , lbufsize(lbufsize_in)
             , fp(fp_in)
          {
-            header_entry_1_name = "header_rows";
-            header_entry_2_name = "data_rows";
-            header_entry_3_name = "columns";
+            this->header_entry_1_name = "header_rows";
+            this->header_entry_2_name = "data_rows";
+            this->header_entry_3_name = "columns";
 
             // Initialize count
-            count = 0;
+            this->count = 0;
 
             // Run initialization methods
             try
             {
-               this->template get_csv_header_data<Type, IType>();
+               codespec<Type, IType>::get_csv_header_data();
             }
             catch(ex::csv_files::wrong_header_string& ex)
             {
@@ -37,7 +39,7 @@ namespace com_sys_lib
             }
 
             // Get header data if it exists
-            this->template read_header_information<Type, IType>();
+            codespec<Type, IType>::read_header_information();
          }
 
          template<typename Type, typename IType>
@@ -57,22 +59,23 @@ namespace com_sys_lib
             }
             catch(ex::csv_files::wrong_header_string& ex)
             {
+               /*
+                           // Accounting variables
+                           IType              header_rows;
+                           IType              data_rows;
+                           IType              columns;
+                           IType              count;
+                           std::vector<IType> index;
 
-            // Accounting variables
-            IType              header_rows;
-            IType              data_rows;
-            IType              columns;
-            IType              count;
-            std::vector<IType> index;
+                           // File Variables
+                           char*    buffer;
+                           uint32_t lbufsize;
+                           FILE*    fp;
 
-            // File Variables
-            char*    buffer;
-            uint32_t lbufsize;
-            FILE*    fp;
-
-            // Codespec file variables
-            std::vector<std::string> information;
-            std::vector<std::string> parameter_strings;
+                           // Codespec file variables
+                           std::vector<std::string> information;
+                           std::vector<std::string> parameter_strings;
+                           */
                throw;
             }
 
@@ -109,7 +112,7 @@ namespace com_sys_lib
          void CSLDECLSPEC
          codespec<Type, IType>::read_header_information(void)
          {
-            char* cv;
+            char*       cv;
             std::string lstr;
 
             if(header_rows > 0)
@@ -135,7 +138,7 @@ namespace com_sys_lib
          }
 
          template<typename Type, typename IType>
-         int CSLDECLSPEC
+         void CSLDECLSPEC
          codespec<Type, IType>::add_line(
             IType       id_in,
             std::string name_in,
@@ -165,20 +168,18 @@ namespace com_sys_lib
          }
 
          template<typename Type, typename IType>
-         int CSLDECLSPEC
+         void CSLDECLSPEC
          codespec<Type, IType>::print_codespec(void)
          {
-            IType row, column;
-
             if(header_rows > 0)
             {
                // First row for this type is information row
                for(auto it : information)
-               { printf("Code information %s\n", it); }
+               { printf("Code information %s\n", it.c_str()); }
 
                // Second row for this type is header column names
                for(auto it : parameter_strings)
-               { printf("Header Column Name %s ", it); }
+               { printf("Header Column Name %s ", it.c_str()); }
                printf("\n");
             }
             /*

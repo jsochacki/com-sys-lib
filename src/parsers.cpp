@@ -1,4 +1,5 @@
 #include <com_sys_lib/inc/parsers.h>
+#include <com_sys_lib/inc/exceptions.h>
 
 namespace com_sys_lib
 {
@@ -54,7 +55,6 @@ namespace com_sys_lib
             {
                const uint16_t lbufsize
                   = com_sys_lib::constants::build::MAX_FILE_READ_BUFFER_SIZE;
-               char* cv;
                char  buffer[lbufsize];
 
                struct smdm::codespec<double, uint16_t> cs(buffer, lbufsize, fp);

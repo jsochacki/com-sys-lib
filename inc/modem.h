@@ -29,7 +29,6 @@
 #include <com_sys_lib/inc/com_sys_lib_build_settings.h>
 #include <com_sys_lib/inc/constants.h>
 #include <com_sys_lib/inc/exceptions.h>
-#include <com_sys_lib/inc/parsers.h>
 #include <com_sys_lib/inc/string_pack.h>
 
 namespace com_sys_lib
@@ -44,10 +43,10 @@ namespace com_sys_lib
             public:
             codespec(char* buffer_in, uint32_t lbufsize_in, FILE* fp_in);
 
-            void get_csv_header_data(void);
-            void read_header_information(void);
+            void CSLDECLSPEC get_csv_header_data(void);
+            void CSLDECLSPEC read_header_information(void);
 
-            int add_line(
+            void add_line(
                IType       id_in,
                std::string name_in,
                Type        esno_qef_dB_in,
@@ -60,7 +59,7 @@ namespace com_sys_lib
                std::string ldpc_code_identifier_in,
                Type        ebno_qef_dB_in);
 
-            int print_codespec(void);
+            void print_codespec(void);
 
             // Local Variables
 
@@ -102,7 +101,6 @@ namespace com_sys_lib
 
 // This is the section with all the namespace abbreviations
 
-namespace csv  = com_sys_lib::parsers::csv_files;
 namespace smdm = com_sys_lib::modem::system;
 
 #endif /* MODEM_H_ */

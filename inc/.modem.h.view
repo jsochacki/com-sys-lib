@@ -1,7 +1,6 @@
 let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
 argglobal
 if bufexists("~/git/com_sys_lib/inc/modem.h") | buffer ~/git/com_sys_lib/inc/modem.h | else | edit ~/git/com_sys_lib/inc/modem.h | endif
-balt ~/git/com_sys_lib/inc
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -11,12 +10,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 77 - ((54 * winheight(0) + 36) / 72)
+let s:l = 27 - ((14 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 77
-normal! 037|
+keepjumps 27
+normal! 036|
 let &g:so = s:so_save | let &g:siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

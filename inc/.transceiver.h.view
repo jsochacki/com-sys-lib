@@ -1,6 +1,7 @@
 let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
 argglobal
 if bufexists("~/git/com_sys_lib/inc/transceiver.h") | buffer ~/git/com_sys_lib/inc/transceiver.h | else | edit ~/git/com_sys_lib/inc/transceiver.h | endif
+balt ~/git/com_sys_lib/inc/transceiver.h
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -10,13 +11,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 9 - ((8 * winheight(0) + 18) / 36)
+let s:l = 16 - ((0 * winheight(0) + 18) / 36)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 9
-normal! 030|
+keepjumps 16
+normal! 07|
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 doautoall SessionLoadPost
 " vim: set ft=vim :

@@ -1,6 +1,7 @@
 let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
 argglobal
 if bufexists("~/git/com_sys_lib/inc/link_budget.h") | buffer ~/git/com_sys_lib/inc/link_budget.h | else | edit ~/git/com_sys_lib/inc/link_budget.h | endif
+balt ~/git/com_sys_lib/inc/link_budget.h
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -10,11 +11,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 84 - ((34 * winheight(0) + 18) / 36)
+let s:l = 11 - ((0 * winheight(0) + 18) / 36)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 84
+keepjumps 11
 normal! 0
 let &g:so = s:so_save | let &g:siso = s:siso_save
 nohlsearch

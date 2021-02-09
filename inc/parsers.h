@@ -58,5 +58,6 @@ namespace com_sys_lib
 // This is the section with all the namespace abbreviations
 
 namespace eh = com_sys_lib::parsers::error_handling;
+namespace csv  = com_sys_lib::parsers::csv_files;
 
 #endif /* PARSERS_H_ */
