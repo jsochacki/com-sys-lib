@@ -1,10 +1,6 @@
 #include <com_sys_lib/inc/constants.h>
 #include <com_sys_lib/inc/link_budget.h>
 
-namespace mathcons = com_sys_lib::constants::math;
-namespace physcons = com_sys_lib::constants::physics;
-namespace geocons  = com_sys_lib::constants::geographical;
-
 namespace com_sys_lib
 {
    namespace link_budget

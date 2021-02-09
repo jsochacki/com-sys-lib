@@ -80,4 +80,8 @@ namespace com_sys_lib
    }      // namespace link_budget
 }   // namespace com_sys_lib
 
+// This is the section with all the namespace abbreviations
+
+namespace lbconv   = com_sys_lib::link_budget::conversions;
+
 #endif /* LINK_BUDGET_H_ */

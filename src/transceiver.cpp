@@ -1,8 +1,6 @@
 #include <com_sys_lib/inc/constants.h>
 #include <com_sys_lib/inc/transceiver.h>
 
-namespace physcons = com_sys_lib::constants::physics;
-
 namespace com_sys_lib
 {
    namespace transceiver

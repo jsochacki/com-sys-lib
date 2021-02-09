@@ -22,21 +22,15 @@
  *
  */
 
-#include <cerrno>      // For error handling
-#include <cstdio>      // For printf, fprintf, fopen, and fclose
-#include <cstdlib>     // For strtof, atoi, atof, exceptions and EXIT_FAILURE
-#include <cstring>     // For strerror
 #include <exception>   // For advanced exceptions
 #include <memory>      // For std::shared_ptr
-#include <string>      // For string functionality
 #include <vector>      // For vector
 
 #include <com_sys_lib/inc/com_sys_lib_build_settings.h>
 #include <com_sys_lib/inc/constants.h>
 #include <com_sys_lib/inc/exceptions.h>
 #include <com_sys_lib/inc/parsers.h>
-
-namespace csv = com_sys_lib::parsers::csv_files;
+#include <com_sys_lib/inc/string_pack.h>
 
 namespace com_sys_lib
 {
@@ -50,13 +44,9 @@ namespace com_sys_lib
             public:
             codespec(char* buffer_in, uint32_t lbufsize_in, FILE* fp_in);
 
-            template<typename Type, typename IType>
             void get_csv_header_data(void);
+            void read_header_information(void);
 
-            template<typename Type, typename IType>
-            void add_header_information(void);
-
-            template<typename Type, typename IType>
             int add_line(
                IType       id_in,
                std::string name_in,
@@ -74,8 +64,10 @@ namespace com_sys_lib
 
             // Local Variables
 
-            // Pointers
-            std::shared_ptr<csv_header_data<IType>> phd;
+            // Error Checking Variables
+            std::string header_entry_1_name;
+            std::string header_entry_2_name;
+            std::string header_entry_3_name;
 
             // Accounting variables
             IType              header_rows;
@@ -90,6 +82,8 @@ namespace com_sys_lib
             FILE*    fp;
 
             // Codespec file variables
+            std::vector<std::string> information;
+            std::vector<std::string> parameter_strings;
             std::vector<IType>       id;
             std::vector<std::string> name;
             std::vector<Type>        esno_qef_dB;
@@ -105,5 +99,10 @@ namespace com_sys_lib
       }   // namespace system
    }      // namespace modem
 }   // namespace com_sys_lib
+
+// This is the section with all the namespace abbreviations
+
+namespace csv  = com_sys_lib::parsers::csv_files;
+namespace smdm = com_sys_lib::modem::system;
 
 #endif /* MODEM_H_ */

@@ -34,7 +34,7 @@ namespace com_sys_lib
       namespace math
       {
          template<typename Type>
-         CSLDECLSPEC constexpr Type pi{
+         constexpr Type CSLDECLSPEC pi{
             static_cast<Type>(
                3.141592653589793238462643383279502884197169399375105820974944592307816406286)
          };
@@ -42,18 +42,18 @@ namespace com_sys_lib
       namespace physics
       {
          template<typename Type>
-         CSLDECLSPEC constexpr Type speed_of_light{ static_cast<Type>(
+         constexpr Type CSLDECLSPEC speed_of_light{ static_cast<Type>(
             299792458.0) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type boltzmanns_constant{ static_cast<Type>(
+         constexpr Type CSLDECLSPEC boltzmanns_constant{ static_cast<Type>(
             1.38064852e-23) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type zero_C_in_kelvin{ static_cast<Type>(
+         constexpr Type CSLDECLSPEC zero_C_in_kelvin{ static_cast<Type>(
             273.15) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type room_temp_in_C{ static_cast<Type>(16.85) };
+         constexpr Type CSLDECLSPEC room_temp_in_C{ static_cast<Type>(16.85) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type room_temp_in_K{ static_cast<Type>(290.0) };
+         constexpr Type CSLDECLSPEC room_temp_in_K{ static_cast<Type>(290.0) };
       }   // namespace physics
       namespace geographical
       {
@@ -74,21 +74,27 @@ namespace com_sys_lib
           *
           * */
          template<typename Type>
-         CSLDECLSPEC constexpr Type mean_earth_radius_in_m{ static_cast<Type>(
+         constexpr Type CSLDECLSPEC mean_earth_radius_in_m{ static_cast<Type>(
             6371000) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type polar_earth_radius_in_m{ static_cast<Type>(
+         constexpr Type CSLDECLSPEC polar_earth_radius_in_m{ static_cast<Type>(
             6356000) };
          template<typename Type>
-         CSLDECLSPEC constexpr Type equatorial_earth_radius_in_m{
+         constexpr Type CSLDECLSPEC equatorial_earth_radius_in_m{
             static_cast<Type>(6378000)
          };
       }   // namespace geographical
       namespace build
       {
-         CSLDECLSPEC constexpr uint32_t MAX_FILE_READ_BUFFER_SIZE{ UINT16_MAX };
+         constexpr uint32_t CSLDECLSPEC MAX_FILE_READ_BUFFER_SIZE{ UINT16_MAX };
       }
    }   // namespace constants
 }   // namespace com_sys_lib
+
+// This is the section with all the namespace abbreviations
+
+namespace mathcons = com_sys_lib::constants::math;
+namespace physcons = com_sys_lib::constants::physics;
+namespace geocons  = com_sys_lib::constants::geographical;
 
 #endif /* CONSTANTS_H_ */

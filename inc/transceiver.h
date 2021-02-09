@@ -2,15 +2,11 @@
 #define TRANSCEIVER_H_
 
 #include <cmath>
-#include <cstdio>
 
 #include <com_sys_lib/inc/com_sys_lib_build_settings.h>
 #include <com_sys_lib/inc/link_budget.h>
+#include <com_sys_lib/inc/string_pack.h>
 #include <gsl/gsl_sf_bessel.h>
-
-namespace mathcons = com_sys_lib::constants::math;
-namespace physcons = com_sys_lib::constants::physics;
-namespace lbconv   = com_sys_lib::link_budget::conversions;
 
 namespace com_sys_lib
 {

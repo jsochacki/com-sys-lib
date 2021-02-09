@@ -22,51 +22,15 @@
  *
  */
 
-#include <cerrno>      // For error handling
-#include <cstdio>      // For printf, fprintf, fopen, and fclose
-#include <cstdlib>     // For strtof, atoi, atof, exceptions and EXIT_FAILURE
-#include <cstring>     // For strerror
 #include <exception>   // For advanced exceptions
 #include <memory>      // For std::shared_ptr
-#include <string>      // For string functionality
 
 #include <com_sys_lib/inc/com_sys_lib_build_settings.h>
 #include <com_sys_lib/inc/constants.h>
 #include <com_sys_lib/inc/exceptions.h>
 #include <com_sys_lib/inc/modem.h>
+#include <com_sys_lib/inc/string_pack.h>
 #include <fcntl.h>   // For io.h which has write, open, and close for bin files
-
-namespace smdm = com_sys_lib::modem::system;
-namespace eh   = com_sys_lib::parsers::error_handling;
-namespace ex   = com_sys_lib::exceptions;
-
-namespace com_sys_lib
-{
-   namespace parsers
-   {
-      namespace csv_files
-      {
-         template<typename IType>
-         struct CSLDECLSPEC csv_header_data
-         {
-            public:
-            csv_header_data(std::string header_entry_1_name_in = "header_rows",
-                            IType        header_rows_in         = 0,
-                            std::string header_entry_2_name_in = "data_rows",
-                            IType        data_rows_in           = 0,
-                            std::string header_entry_3_name_in = "columns",
-                            IType        columns_in             = 0);
-
-            std::string header_entry_1_name;
-            IType        header_rows;
-            std::string header_entry_2_name;
-            IType        data_rows;
-            std::string header_entry_3_name;
-            IType        columns;
-         };
-      }   // namespace csv_files
-   }      // namespace parsers
-}   // namespace com_sys_lib
 
 namespace com_sys_lib
 {
@@ -90,5 +54,9 @@ namespace com_sys_lib
       }
    }   // namespace parsers
 }   // namespace com_sys_lib
+
+// This is the section with all the namespace abbreviations
+
+namespace eh = com_sys_lib::parsers::error_handling;
 
 #endif /* PARSERS_H_ */

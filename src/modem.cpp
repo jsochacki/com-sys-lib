@@ -15,14 +15,29 @@ namespace com_sys_lib
             , lbufsize(lbufsize_in)
             , fp(fp_in)
          {
-            // Allocate Memory
-            phd = std::make_shared<csv_header_data<IType>>();
+            header_entry_1_name = "header_rows";
+            header_entry_2_name = "data_rows";
+            header_entry_3_name = "columns";
 
             // Initialize count
             count = 0;
 
             // Run initialization methods
-            get_csv_header_data<IType>();
+            try
+            {
+               this->template get_csv_header_data<Type, IType>();
+            }
+            catch(ex::csv_files::wrong_header_string& ex)
+            {
+               throw;
+            }
+            catch(const std::invalid_argument& ex)
+            {
+               throw;
+            }
+
+            // Get header data if it exists
+            this->template read_header_information<Type, IType>();
          }
 
          template<typename Type, typename IType>
@@ -38,53 +53,85 @@ namespace com_sys_lib
 
             try
             {
-               eh::compare_strings<std::string>(cv, phd->header_entry_1_name);
+               eh::compare_strings<std::string>(cv, header_entry_1_name);
             }
             catch(ex::csv_files::wrong_header_string& ex)
             {
+
+            // Accounting variables
+            IType              header_rows;
+            IType              data_rows;
+            IType              columns;
+            IType              count;
+            std::vector<IType> index;
+
+            // File Variables
+            char*    buffer;
+            uint32_t lbufsize;
+            FILE*    fp;
+
+            // Codespec file variables
+            std::vector<std::string> information;
+            std::vector<std::string> parameter_strings;
                throw;
             }
 
-            phd->header_rows
+            header_rows
                = static_cast<IType>(std::atoi(std::strtok(nullptr, ",")));
             cv = std::strtok(nullptr, ",");   // Should be the string data_rows
 
             try
             {
-               eh::compare_strings<std::string>(cv, phd->header_entry_2_name);
+               eh::compare_strings<std::string>(cv, header_entry_2_name);
             }
             catch(ex::csv_files::wrong_header_string& ex)
             {
                throw;
             }
 
-            phd->data_rows
+            data_rows
                = static_cast<IType>(std::atoi(std::strtok(nullptr, ",")));
             cv = std::strtok(nullptr, ",");   // Should be the string columns
 
             try
             {
-               eh::compare_strings<std::string>(cv, phd->header_entry_3_name);
+               eh::compare_strings<std::string>(cv, header_entry_3_name);
             }
             catch(ex::csv_files::wrong_header_string& ex)
             {
                throw;
             }
 
-            phd->columns
-               = static_cast<IType>(std::atoi(std::strtok(nullptr, ",")));
-
+            columns = static_cast<IType>(std::atoi(std::strtok(nullptr, ",")));
          }
 
          template<typename Type, typename IType>
          void CSLDECLSPEC
-         codespec<Type, IType>::add_header_information(void)
+         codespec<Type, IType>::read_header_information(void)
          {
-            //TODO here just read the file and do the work like you do in parser
-            //currently 
+            char* cv;
             std::string lstr;
-            lstr = information_in;
-            information.push_back(lstr);
+
+            if(header_rows > 0)
+            {
+               fgets(buffer, lbufsize, fp);
+               cv = std::strtok(buffer, ",");
+               while(cv != nullptr)
+               {
+                  lstr = cv;
+                  information.push_back(lstr);
+                  cv = std::strtok(nullptr, ",");
+               }
+
+               fgets(buffer, lbufsize, fp);
+               cv = std::strtok(buffer, ",");
+               while(cv != nullptr)
+               {
+                  lstr = cv;
+                  parameter_strings.push_back(lstr);
+                  cv = std::strtok(nullptr, ",");
+               }
+            }
          }
 
          template<typename Type, typename IType>
@@ -130,7 +177,8 @@ namespace com_sys_lib
                { printf("Code information %s\n", it); }
 
                // Second row for this type is header column names
-               for(auto it : name) { printf("Header Column Name %s ", it); }
+               for(auto it : parameter_strings)
+               { printf("Header Column Name %s ", it); }
                printf("\n");
             }
             /*
@@ -149,24 +197,6 @@ namespace com_sys_lib
          template struct CSLDECLSPEC codespec<float, uint16_t>;
          template struct CSLDECLSPEC codespec<double, uint16_t>;
          template struct CSLDECLSPEC codespec<long double, uint16_t>;
-         template int CSLDECLSPEC
-         codespec<float, uint16_t>::add_information<char*>(
-            char* information_in);
-         template int CSLDECLSPEC
-         codespec<double, uint16_t>::add_information<char*>(
-            char* information_in);
-         template int CSLDECLSPEC
-         codespec<long double, uint16_t>::add_information<char*>(
-            char* information_in);
-         template int CSLDECLSPEC
-         codespec<float, uint16_t>::add_information<std::string>(
-            std::string information_in);
-         template int CSLDECLSPEC
-         codespec<double, uint16_t>::add_information<std::string>(
-            std::string information_in);
-         template int CSLDECLSPEC
-         codespec<long double, uint16_t>::add_information<std::string>(
-            std::string information_in);
 #endif
       }   // namespace system
    }      // namespace modem

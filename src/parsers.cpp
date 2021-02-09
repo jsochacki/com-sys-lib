@@ -4,37 +4,6 @@ namespace com_sys_lib
 {
    namespace parsers
    {
-      namespace csv_files
-      {
-         template<typename Type>
-         CSLDECLSPEC
-         csv_header_data<Type>::csv_header_data(
-            std::string header_entry_1_name_in,
-            Type        header_rows_in,
-            std::string header_entry_2_name_in,
-            Type        data_rows_in,
-            std::string header_entry_3_name_in,
-            Type        columns_in)
-            : header_entry_1_name(header_entry_1_name_in)
-            , header_rows(header_rows_in)
-            , header_entry_2_name(header_entry_2_name_in)
-            , data_rows(data_rows_in)
-            , header_entry_3_name(header_entry_3_name_in)
-            , columns(columns_in)
-         {}
-#ifdef com_sys_lib_EXPORTS
-         template struct CSLDECLSPEC csv_header_data<uint8_t>;
-         template struct CSLDECLSPEC csv_header_data<uint16_t>;
-         template struct CSLDECLSPEC csv_header_data<uint32_t>;
-#endif
-      }   // namespace csv_files
-   }      // namespace parsers
-}   // namespace com_sys_lib
-
-namespace com_sys_lib
-{
-   namespace parsers
-   {
       namespace cli
       {
          void CSLDECLSPEC
@@ -88,113 +57,13 @@ namespace com_sys_lib
                char* cv;
                char  buffer[lbufsize];
 
-               std::shared_ptr<csv_header_data<uint16_t>> phd = nullptr;
-               std::shared_ptr<smdm::codespec<double>>    cs  = nullptr;
+               struct smdm::codespec<double, uint16_t> cs(buffer, lbufsize, fp);
+               cs.print_codespec();
 
-               uint32_t row;
-               uint32_t column;
-
-               /// Get info from header about header row count, data row count,
-               // and column countr
-               try
-               {
-                  phd = get_csv_header_data<uint16_t, uint16_t>(buffer,
-                                                                lbufsize,
-                                                                fp);
-                  if(phd == nullptr)
-                     throw std::invalid_argument("Exception: function "
-                                                 "get_csv_header_data call "
-                                                 "failed for some reason that "
-                                                 "I currently don't protect "
-                                                 "against.  Please look into "
-                                                 "this function and your use "
-                                                 "of it.");
-               }
-               catch(ex::csv_files::wrong_header_string& ex)
-               {
-                  return EXIT_FAILURE;
-               }
-               catch(const std::invalid_argument& ex)
-               {
-                  return EXIT_FAILURE;
-               }
-
-               try
-               {
-                  cs = std::make_shared<smdm::codespec<double>>(phd);
-
-                  if(cs == nullptr)
-                     throw std::invalid_argument("Exception: struct allocation"
-                                                 " for codespec "
-                                                 "failed for some reason that "
-                                                 "I currently don't protect "
-                                                 "against.  Please look into "
-                                                 "this function and your use "
-                                                 "of it.");
-               }
-               catch(const std::invalid_argument& ex)
-               {
-                  return EXIT_FAILURE;
-               }
-
-               if(phd->header_rows > 0)
-               {
-                  row = 0;
-
-                  while(row < phd->header_rows)
-                  {
-                     fgets(buffer, lbufsize, fp);
-                     column = 0;
-                     cv     = std::strtok(buffer, ",");
-                     while(cv != nullptr)
-                     {
-                        cs->add_information(cv);
-                        cv = std::strtok(nullptr, ",");
-                        ++column;
-                     }
-                     ++row;
-                  }
-               }
-
-               cs->print_codespec();
-
-               if(phd->data_rows > 0)
-               {
-                  row = 0;
-
-                  while(row < phd->data_rows)
-                  {
-                     fgets(buffer, lbufsize, fp);
-                     column = 0;
-                     cv     = std::strtok(buffer, ",");
-                     while(cv != nullptr)
-                     {
-                        printf("header cv row %d, column %d, is %s\n",
-                               row,
-                               column,
-                               cv);
-                        cv = std::strtok(nullptr, ",");
-                        ++column;
-                     }
-                     ++row;
-                  }
-               }
                fclose(fp);
             }
          }
 #ifdef com_sys_lib_EXPORTS
-         template std::shared_ptr<csv_header_data<uint8_t>>
-            CSLDECLSPEC get_csv_header_data<uint8_t>(char*    buffer,
-                                                     uint32_t lbufsize,
-                                                     FILE*    fp);
-         template std::shared_ptr<csv_header_data<uint16_t>>
-            CSLDECLSPEC get_csv_header_data<uint16_t>(char*    buffer,
-                                                      uint32_t lbufsize,
-                                                      FILE*    fp);
-         template std::shared_ptr<csv_header_data<uint32_t>>
-            CSLDECLSPEC get_csv_header_data<uint32_t>(char*    buffer,
-                                                      uint32_t lbufsize,
-                                                      FILE*    fp);
 #endif
       }   // namespace csv_files
       namespace error_handling

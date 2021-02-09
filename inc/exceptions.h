@@ -23,16 +23,12 @@
 #ifndef EXCEPTIONS_H_
 #define EXCEPTIONS_H_
 
-#include <cerrno>   // For error handling
 #include <cstdint>
-#include <cstdio>      // For printf, fprintf, fopen, and fclose
-#include <cstdlib>     // For strtof, atoi, atof, exceptions and EXIT_FAILURE
-#include <cstring>     // For strerror
 #include <exception>   // For advanced exceptions
 #include <memory>      // For std::shared_ptr
-#include <string>      // For string functionality
 
 #include <com_sys_lib/inc/com_sys_lib_build_settings.h>
+#include <com_sys_lib/inc/string_pack.h>
 
 namespace com_sys_lib
 {
@@ -43,10 +39,11 @@ namespace com_sys_lib
          struct wrong_header_string : public std::exception
          {
             public:
-            wrong_header_string(std::string expected_in, std::string received_in);
+            wrong_header_string(std::string expected_in,
+                                std::string received_in);
             const char* what() const noexcept;
-            void print_error(void);
-            int return_exit_status(void);
+            void        print_error(void);
+            int         return_exit_status(void);
 
             std::string expected;
             std::string received;
@@ -54,5 +51,9 @@ namespace com_sys_lib
       }   // namespace csv_files
    }      // namespace exceptions
 }   // namespace com_sys_lib
+
+// This is the section with all the namespace abbreviations
+
+namespace ex   = com_sys_lib::exceptions;
 
 #endif /* EXCEPTIONS_H_ */

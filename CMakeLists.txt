@@ -106,11 +106,10 @@ set(build_header_files
       ${build_inc_path}/com_sys_lib.h
       ${build_inc_path}/constants.h
       ${build_inc_path}/exceptions.h
-      ${build_inc_path}/fixed_matrices.h
       ${build_inc_path}/link_budget.h
       ${build_inc_path}/modem.h
       ${build_inc_path}/parsers.h
-      ${build_inc_path}/starting.h
+      ${build_inc_path}/string_pack.h
       ${build_inc_path}/transceiver.h)
 
 set(install_interface_header_files
@@ -119,11 +118,10 @@ set(install_interface_header_files
       ${install_include_path}/com_sys_lib.h
       ${install_include_path}/constants.h
       ${install_include_path}/exceptions.h
-      ${install_include_path}/fixed_matrices.h
       ${install_include_path}/link_budget.h
       ${install_include_path}/modem.h
       ${install_include_path}/parsers.h
-      ${install_include_path}/starting.h
+      ${install_include_path}/string_pack.h
       ${install_include_path}/transceiver.h)
 
 set(source_files
@@ -132,7 +130,6 @@ set(source_files
       ${build_src_path}/link_budget.cpp
       ${build_src_path}/modem.cpp
       ${build_src_path}/parsers.cpp
-      ${build_src_path}/starting.cpp
       ${build_src_path}/transceiver.cpp)
 
 ###############################################################################
